@@ -400,10 +400,9 @@ class TypesenseEngine extends Engine
     protected function filters(Builder $builder): string
     {
         $whereFilter = collect($builder->wheres)
-            ->map([
-                $this,
-                'parseWhereFilter',
-            ])
+            ->map(function ($where) {
+                return $this->parseWhereFilter($where['value'], $where['field']);
+            })
             ->values()
             ->implode(' && ');
 
